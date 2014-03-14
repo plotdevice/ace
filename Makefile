@@ -26,6 +26,35 @@ build/src/ace.js : ${wildcard lib/*} \
                    ${wildcard lib/*/*/*/*/*/*}
 	./Makefile.dryice.js
 
+build/src-min/ace.js : ${wildcard lib/*} \
+                   ${wildcard lib/*/*} \
+                   ${wildcard lib/*/*/*} \
+                   ${wildcard lib/*/*/*/*} \
+                   ${wildcard lib/*/*/*/*/*} \
+                   ${wildcard lib/*/*/*/*/*/*}
+	/usr/local/bin/node ./Makefile-plod.dryice.js minimal --m
+
+embed: build/src-min/ace.js
+	@mkdir -p build/editor
+	@echo "// ACE Editor" > build/ace.js
+	@for f in ${wildcard build/src-min/[a-s]*.js} ${wildcard build/src-min/snippets/*.js} ; \
+    do cat $$f >> build/ace.js; \
+    echo >> build/ace.js; \
+  done
+
+	@echo >> build/ace.js
+	@echo "// Color Themes" >> build/ace.js
+	@for f in ${wildcard build/src-min/theme*.js} ; \
+    do cat $$f >> build/ace.js; \
+    echo >> build/ace.js; \
+  done
+
+install: embed
+	@./env/bin/python themedump.py > /dev/null
+	@cp build/ace.js ../../Resources/ui/js/ace.js
+	@cp build/themes.json ../../Resources/ui/themes.json
+	@cp build/autocomplete.css ../../Resources/ui/autocomplete.css
+
 doc:
 	cd doc;\
 	(test -d node_modules && npm update) || npm install;\
