@@ -1,0 +1,6 @@
+#editor.{{clazz}} ~ div.ace_autocomplete.ace-tm .ace_marker-layer .ace_active-line {border:1px solid {{selection}}; background-color:{{halfselection}};}
+#editor.{{clazz}} ~ div.ace_autocomplete.ace-tm .ace_line{color:{{color}};}
+#editor.{{clazz}} ~ div.ace_autocomplete.ace-tm .ace_line-hover {border-color:{{selection}}; background-color:{{halfselection}};}
+#editor.{{clazz}} ~ div.ace_rightAlignedText {color:{{comment}};}
+#editor.{{clazz}} ~ div.ace_autocomplete .ace_completion-highlight{color:{{error}};}
+#editor.{{clazz}} ~ div.ace_autocomplete {background-color:{{background}}; color:{{color}}; border-color:{{color}};}

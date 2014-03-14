@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>themedump</title>
+  <meta name="generator" content="Sublime Text 2 http://sublimetext.com">
+  <meta name="author" content="Christian Swinehart">
+  <meta name="description" content="">
+  
+  <link rel="stylesheet" href="css/main.css" type="text/css" charset="utf-8">
+  <!-- Date: 2014/02/05 19:58:23 -->
+</head>
+<body>
+<div>
+{% for row in rows %}
+  <div class="theme" style="background:{{row.background}}; color:{{row.plain}}; padding:40px 20px">
+    <span style="width:200px;">{{row.theme}}</span> <span style="color:{{row.err}};">Traceback (most recent call last):</span> <span style="color:{{row.comment}};"># Lorem ipsum dolor module</span>
+  </div>
+{% endfor %}
+</div>
+
+</body>
+</html>
