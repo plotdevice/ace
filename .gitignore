@@ -19,3 +19,7 @@ jam/
 .git-ref
 npm-debug.log
 deps/
+
+# themedump-generated files
+plotdevice/autocomplete.css
+plotdevice/themes.json
