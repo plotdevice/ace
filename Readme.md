@@ -1,5 +1,12 @@
+PlotDevice Editor
+=================
+
+The PlotDevice application uses an embedded WebView for its text editor. This repository
+contains the ace.js sources along with syntax-highlighting and tab-triggered snippets for the PlotDevice API. The main PlotDevice distribution includes a minified copy of the editor, so this repository is only useful if you wish to make additional customizations.
+
+
 Ace (Ajax.org Cloud9 Editor)
-============================
+----------------------------
 
 _Note_: The new site at http://ace.c9.io contains all the info below along with an embedding guide and all the other resources you need to get started with Ace.
 
