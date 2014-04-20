@@ -21,5 +21,6 @@ npm-debug.log
 deps/
 
 # themedump-generated files
+plotdevice/editor
 plotdevice/autocomplete.css
 plotdevice/themes.json

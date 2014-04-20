@@ -26,16 +26,16 @@ build/src/ace.js: ${wildcard lib/*} \
                   ${wildcard lib/*/*/*/*/*/*}
 	./Makefile.dryice.js
 
-build/ace-min.js: ${wildcard lib/*} \
+plotdevice/editor/ace-min.js: ${wildcard lib/*} \
                   ${wildcard lib/*/*} \
                   ${wildcard lib/*/*/*} \
                   ${wildcard lib/*/*/*/*} \
                   ${wildcard lib/*/*/*/*/*} \
                   ${wildcard lib/*/*/*/*/*/*}
-	/usr/local/bin/node ./Makefile-plod.dryice.js minimal --s
+	/usr/local/bin/node ./Makefile-plod.dryice.js minimal --s --target plotdevice/editor
 
-install: build/ace-min.js
-	@cp build/ace-min.js ../plotdevice/Resources/ui/js/ace.js
+install: plotdevice/editor/ace-min.js
+	@cp plotdevice/editor/ace-min.js ../plotdevice/Resources/ui/js/ace.js
 	@cp plotdevice/themes.json ../plotdevice/Resources/ui/themes.json
 	@cp plotdevice/autocomplete.css ../plotdevice/Resources/ui/autocomplete.css
 
