@@ -24,3 +24,11 @@ deps/
 plotdevice/editor
 plotdevice/autocomplete.css
 plotdevice/themes.json
+
+# plotdevice-specific syntax & themes
+lib/ace/mode/plotdevice.js
+lib/ace/mode/plotdevice_highlight_rules.js
+lib/ace/snippets/plotdevice.js
+lib/ace/snippets/plotdevice.snippets
+lib/ace/theme/blackboard.css
+lib/ace/theme/blackboard.js

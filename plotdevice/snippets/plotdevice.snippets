@@ -97,8 +97,14 @@ snippet _
 
 snippet align
 	align(${1:LEFT/RIGHT/CENTER/JUSTIFY})
+snippet alpha
+	alpha(${1:1.0})
+snippet arc
+	arc(${1:x}, ${2:y}, ${3:radius}${4:, range=${5:None}, ccw=${6:False}, close=${7:False}})
+snippet arcto
+	arcto(${1:x}, ${2:y}${3:, cx=${4:None}, cy=${5:None}, radius=${6:None}, ccw=${7:False}, close=${8:False}})
 snippet arrow
-	arrow(${1:x}, ${2:y}${3:, width=${4:100}, type=${5:NORMAL/FORTYFIVE}, draw=${6:True}})
+	arrow(${1:x}, ${2:y}${3:, width=${4:100}, type=${5:NORMAL/FORTYFIVE}, plot=${6:True}})
 snippet autoclosepath
 	autoclosepath(${1:close=${2:True}})
 snippet autotext
@@ -106,17 +112,23 @@ snippet autotext
 snippet background
 	background()
 snippet beginclip
-	beginclip(${1:path})
+	beginclip(${1:stencil}${2:, mask=${3:False}, channel=${4:None}})
 snippet beginpath
 	beginpath(${1:${2:x}, ${3:y}})
 snippet bezier
-	bezier(${1:${2:x}, ${3:y}}, close=${4:True}, draw=${5:True})
+	bezier(${1:${2:x}, ${3:y}}, close=${4:True}, plot=${5:True})
+snippet blend
+	blend("${1:normal}")
 snippet capstyle
 	capstyle(${1:style=${2:BUTT/ROUND/SQUARE}})
 snippet choice
 	choice(${1:seq})
+snippet clear
+	clear(${1:all})
 snippet clip
-	clip()
+	clip(${1:stencil}${2:, channel="${3:black/white/alpha/red/green/blue}"})
+snippet mask
+	mask(${1:stencil}${2:, channel="${3:black/white/alpha/red/green/blue}"})
 snippet closepath
 	closepath()
 snippet color
@@ -126,19 +138,19 @@ snippet colormode
 snippet colorrange
 	colorrange(${1:maxval})
 snippet curveto
-	curveto(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x}, ${6:y})
+	curveto(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x}, ${6:y}${7:, close=${8:False}})
 snippet drawpath
 	drawpath(${1:path})
 snippet ellipse
-	ellipse(${1:x}, ${2:y}, ${3:width}, ${4:height}${5:, draw=${6:True}})
+	ellipse(${1:x}, ${2:y}, ${3:width}, ${4:height}${5:, range=${6:None}, ccw=${7:False}, close=${8:False}, plot=${9:True}})
 snippet endclip
 	endclip()
 snippet endpath
-	endpath(${1:draw=${2:True}})
+	endpath(${1:plot=${2:True}})
 snippet export
-	export("${1:${2:document}.${3:mov}}"${4:, loop=${5:None}, fps=${6:None}, bitrate=${7:1.0}})
+	export("${1:${2:document}.${3:mov}}"${4:, fps=${5:None}, loop=${6:None}, bitrate=${7:1.0}})
 snippet files
-	files("${1:${2:*}.${3:json}}")
+	files("${1:${2:*}.${3:json}}", case=${4:True}})
 snippet fill
 	fill(${1:"#${2:000}"})
 snippet findpath
@@ -151,62 +163,78 @@ snippet fonts
 	fonts(${1:like="${2:akzidenz}", western=${3:True}})
 snippet fontsize
 	fontsize(${1:12})
+snippet geometry
+	geometry(${1:DEGREES/RADIANS/PERCENT})
 snippet grid
 	grid(${1:cols}, ${2:rows}${3:, colSize=${4:1}, rowSize=${5:1}, shuffled=${6:False}})
 snippet image
-	image("${1:image.png}", ${2:x}, ${3:y}${4:, width=${5:None}, height=${6:None}, alpha=${7:1.0}, data=${8:None}, draw=${9:True}})
+	image("${1:image.png}", ${2:x}, ${3:y}${4:, width=${5:None}, height=${6:None}, plot=${7:True}})
 snippet imagesize
 	imagesize("${1:image.png}"${2:, data=${3:None}})
 snippet joinstyle
 	joinstyle(${1:MITER/ROUND/BEVEL})
 snippet line
-	line(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}${5:, draw=${6:True}})
+	line(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}${5:, plot=${6:True}})
 snippet lineheight
 	lineheight(${1:None})
 snippet lineto
-	lineto(${1:x}, ${2:y})
+	lineto(${1:x}, ${2:y}${3:, close=${4:False}})
+snippet measure
+	measure(${1:obj})
 snippet moveto
 	moveto(${1:x}, ${2:y})
 snippet nofill
 	nofill()
 snippet nostroke
 	nostroke()
+snippet noshadow
+	noshadow()
+snippet ordered
+	ordered(${1:seq})
 snippet outputmode
 	outputmode(${1:RGB/HSB/CMYK})
 snippet oval
-	oval(${1:x}, ${2:y}, ${3:width}, ${4:height}${5:, draw=${6:True}})
+	oval(${1:x}, ${2:y}, ${3:width}, ${4:height}${5:, range=${6:None}, ccw=${7:False}, close=${8:False}, plot=${9:True}})
+snippet pen
+	pen(${1:nib})
+snippet plot
+	plot(${1:obj})
+snippet poly
+	poly(${1:x}, ${2:y}, ${3:radius}, ${4:sides}${5:, plot=${6:True}})
 snippet pop
 	pop()
 snippet push
 	push()
 snippet random
 	random(${1:v1=${2:None}, v2=${3:None}})
+snippet read
+	read(${1:pth}${2:, format=${3:None}, encoding=${4:utf-8}, cols=${5:None}})
 snippet rect
-	rect(${1:x}, ${2:y}, ${3:width}, ${4:height}${5:, roundness=${6:0.0}, draw=${7:True}})
+	rect(${1:x}, ${2:y}, ${3:width}, ${4:height}${5:, roundness=${6:0.0}, plot=${7:True}})
 snippet reset
 	reset()
 snippet rotate
-	rotate(${1:degrees})
-snippet save
-	canvas.save("${1:${2:doc}.${3:pdf}}")
-snippet canvas.save
-	canvas.save("${1:${2:doc}.${3:pdf}}")
+	rotate(${1:theta})
 snippet scale
 	scale(${1:x=${2:1}, y=${3:None}})
+snippet shadow
+	shadow(${1:"black"}, blur=${2:10}, offset=${3:10})))
+snippet shuffled
+	shuffled(${2:seq})
 snippet size
-	size(${1:width}, ${2:height})
+	size(${1:width}, ${2:height}, unit=${4:px}})
 snippet skew
-	skew(${1:x=${2:0}, y=${3:0}})
+	skew(${1:horizontal}, ${2:vertical})
 snippet speed
 	speed(${1:fps})
 snippet star
-	star(${1:startx}, ${2:starty}${3:, points=${4:20}, outer=${5:100}, inner=${6:50}, draw=${7:True}})
+	star(${1:x}, ${2:y}${3:, points=${4:20}, outer=${5:100}, inner=${6:None}, plot=${7:True}}})
 snippet stroke
 	stroke()
 snippet strokewidth
-	strokewidth(${1:None})
+	strokewidth(${1:width})
 snippet text
-	text("${1:txt}", ${2:x}, ${3:y}${4:, width=${5:None}, height=${6:None}, outline=${7:False}, draw=${8:True}})
+	text("${1:txt}", ${2:x}, ${3:y}${4:, width=${5:None}, height=${6:None}, outline=${7:False}, plot=${8:True}})
 snippet textheight
 	textheight("${1:txt}"${2:, width=${3:None}})
 snippet textmetrics
@@ -221,8 +249,6 @@ snippet transform()
 	with transform(${1:${2:CENTER/CORNER, }${3:...}}):
 		$4
 snippet translate
-	translate(x=${1:0}, y=${2:0})
-snippet var
-	var(${1:name}, type=${2:NUMBER/TEXT/BOOLEAN/BUTTON}${3:, default=${4:None}, min=${5:0}, max=${6:100}, value=${7:None}})
+	translate(${1:x}, ${2:y})
 snippet ximport
 	${1:libName} = ximport("$1")

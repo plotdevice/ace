@@ -39,42 +39,65 @@ var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 
 var PlotDeviceHighlightRules = function() {
 
-    var keywords = (
-        "and|as|assert|break|class|continue|def|del|elif|else|except|exec|" +
-        "finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|" +
-        "raise|return|try|while|with|yield" +
-        "|adict|odict|ddict|BezierPath|Bezier|ClippingPath|Color|Context|Family|Font|Stylesheet|Grob|Image|PlotDeviceError|Oval|PathElement|Curve|Point|Rect|Text|Transform|TransformContext|Variable"
-    );
+    var builtinKeywords = [
+        "and", "as", "assert", "break", "class", "continue", "def", "del", "elif", "else", "except",
+        "exec", "finally", "for", "from", "global", "if", "import", "in", "is", "lambda", "not", "or",
+        "pass", "print", "raise", "return", "try", "while", "with", "yield"
+    ]
 
-    var builtinConstants = (
-        "True|False|None|NotImplemented|Ellipsis|__debug__"
-    );
+    var plodClasses = [
+       'Bezier', 'BezierPath', 'Color', 'Curve', 'Effect', 'Family', 'Font',
+       'Gradient', 'Grob', 'Image', 'Mask', 'PathElement', 'Pattern', 'Point',
+       'Region', 'Shadow', 'Size', 'Stylesheet', 'Text', 'Transform', 'Variable',
+       'adict', 'ddict', 'odict'
+    ]
 
-    var builtinNumConstants = "DEFAULT|FRAME|PAGE|BEVEL|BOOLEAN|BUTT|BUTTON|CENTER|CLOSE|CMYK|CORNER|CURVETO|DEFAULT_HEIGHT|DEFAULT_WIDTH|FORTYFIVE|HEIGHT|HSB|JUSTIFY|KEY_BACKSPACE|KEY_DOWN|KEY_ESC|KEY_LEFT|KEY_RIGHT|KEY_TAB|KEY_UP|LEFT|LINETO|MITER|MOVETO|NORMAL|NUMBER|RGB|GREY|RIGHT|ROUND|SQUARE|TEXT|WIDTH|DEGREES|RADIANS|PERCENT|cm|inch|mm|pi|tau"
+    var builtinConstants = ["True", "False", "None", "NotImplemented", "Ellipsis", "__debug__"]
 
-    var builtinFunctions = (
-        "abs|divmod|input|open|staticmethod|all|enumerate|int|ord|str|any|" +
-        "eval|isinstance|pow|sum|basestring|execfile|issubclass|print|super|" +
-        "binfile|iter|property|tuple|bool|filter|len|range|type|bytearray|" +
-        "float|list|raw_input|unichr|callable|format|locals|reduce|unicode|" +
-        "chr|frozenset|long|reload|vars|classmethod|getattr|map|repr|xrange|" +
-        "cmp|globals|max|reversed|zip|compile|hasattr|memoryview|round|" +
-        "__import__|complex|hash|min|set|apply|delattr|help|next|setattr|" +
-        "buffer|dict|hex|object|slice|coerce|dir|id|oct|sorted|intern" +
-        "|plot|measure|stylesheet|order|ordered|shuffled|addvar|align|arrow|autoclosepath|autotext|background|beginclip|beginpath|bezier|canvas|capstyle|choice|clip|closepath|color|colormode|colorrange|colors|curveto|drawpath|ellipse|endclip|endpath|export|files|fill|findpath|findvar|font|fonts|fontsize|grid|image|imagesize|joinstyle|line|lineheight|lineto|moveto|pen|plotstyle|nofill|nostroke|outputmode|oval|pop|push|random|rect|reset|rotate|save|scale|size|skew|speed|star|state_vars|stroke|strokewidth|text|textheight|textmetrics|textpath|textwidth|transform|translate|var|ximport"
-    );
+    var plodNumeric = [
+        'BEVEL', 'BOOLEAN', 'BUTT', 'BUTTON', 'CENTER', 'CLOSE', 'CMYK', 'CORNER',
+        'CURVETO', 'DEFAULT', 'DEGREES', 'FORTYFIVE', 'FRAME', 'GREY', 'HEIGHT', 'HSB',
+        'JUSTIFY', 'KEY_BACKSPACE', 'KEY_DOWN', 'KEY_ESC', 'KEY_LEFT', 'KEY_RIGHT',
+        'KEY_TAB', 'KEY_UP', 'LEFT', 'LINETO', 'MITER', 'MOVETO', 'NORMAL', 'NUMBER',
+        'PAGE', 'PERCENT', 'RADIANS', 'RGB', 'RIGHT', 'ROUND', 'SQUARE', 'TEXT', 'WIDTH',
+        'cm', 'inch', 'mm', 'pi', 'pica', 'px', 'tau'
+    ]
+
+    var builtinFunctions = [
+        "abs", "divmod", "input", "open", "staticmethod", "all", "enumerate", "int", "ord", "str", "any",
+        "eval", "isinstance", "pow", "sum", "basestring", "execfile", "issubclass", "print", "super",
+        "binfile", "iter", "property", "tuple", "bool", "filter", "len", "range", "type", "bytearray",
+        "float", "list", "raw_input", "unichr", "callable", "format", "locals", "reduce", "unicode",
+        "chr", "frozenset", "long", "reload", "vars", "classmethod", "getattr", "map", "repr", "xrange",
+        "cmp", "globals", "max", "reversed", "zip", "compile", "hasattr", "memoryview", "round",
+        "__import__", "complex", "hash", "min", "set", "apply", "delattr", "help", "next", "setattr",
+        "buffer", "dict", "hex", "object", "slice", "coerce", "dir", "id", "oct", "sorted", "intern"
+    ]
+
+    var plodFunctions = [
+        'align', 'alpha', 'arc', 'arcto', 'arrow', 'autoclosepath', 'autotext',
+        'background', 'beginclip', 'beginpath', 'bezier', 'blend', 'canvas',
+        'capstyle', 'choice', 'clear', 'clip', 'closepath', 'color', 'colormode',
+        'colorrange', 'curveto', 'drawpath', 'ellipse', 'endclip', 'endpath',
+        'export', 'files', 'fill', 'findpath', 'font', 'fonts', 'fontsize',
+        'geometry', 'grid', 'image', 'imagesize', 'joinstyle', 'line', 'lineheight',
+        'lineto', 'mask', 'measure', 'moveto', 'nofill', 'noshadow', 'nostroke',
+        'order', 'ordered', 'outputmode', 'oval', 'pen', 'plot', 'poly', 'pop',
+        'push', 'random', 'read', 'rect', 'reset', 'rotate', 'scale', 'shadow',
+        'shuffled', 'size', 'skew', 'speed', 'star', 'stroke', 'strokewidth',
+        'stylesheet', 'text', 'textheight', 'textmetrics', 'textpath', 'textwidth',
+        'transform', 'translate', 'ximport'
+    ]
 
     var colorEntities = ('aliceblue|antiquewhite|aqua|aquamarine|azure|bark|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightsteelblue|lightyellow|lime|limegreen|linen|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen');
     var colorCodes = '(#?[a-f0-9]{3}([a-f0-9]{3}([a-f0-9]{2})?)?\\b)'
 
-    //var futureReserved = "";
     var keywordMapper = this.createKeywordMapper({
         "invalid.deprecated": "debugger",
-        "support.function": builtinFunctions,
-        //"invalid.illegal": futureReserved,
-        "constant.language": builtinConstants,
-        "constant.numeric": builtinNumConstants,
-        "keyword": keywords
+        "support.function": builtinFunctions.concat(plodFunctions).join("|"),
+        "constant.language": builtinConstants.join("|"),
+        "constant.numeric": plodNumeric.join("|"),
+        "keyword": builtinKeywords.concat(plodClasses).join("|")
     }, "identifier");
 
     var strPre = "(?:r|u|ur|R|U|UR|Ur|uR)?";
