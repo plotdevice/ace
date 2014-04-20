@@ -293,15 +293,15 @@ function getWriteFilters(options, projectType, main) {
 
     if (options.noconflict)
         filters.push(namespace(options.ns));
-       
+
     if (options.exportModule && projectType == "main" || projectType == "ext") {
         filters.push(exportAce(options.ns, options.exportModule,
             options.noconflict ? options.ns : "", projectType == "ext" && main));
     }
-    
+
     if (options.compress)
         filters.push(copy.filter.uglifyjs);
-    
+
     // copy.filter.uglifyjs.options.ascii_only = true; doesn't work with some uglify.js versions
     filters.push(function(text) {
         var text = text.replace(/[\x00-\x08\x0b\x0c\x0e\x19\x80-\uffff]/g, function(c) {
@@ -314,9 +314,9 @@ function getWriteFilters(options, projectType, main) {
                 return "\\u0" + c;
             return "\\u" + c;
         });
-        return text; 
+        return text;
     });
-    
+
     return filters;
 }
 
@@ -339,11 +339,13 @@ var buildAce = function(options) {
         modes: ["plotdevice","text"],
         themes: jsFileList("lib/ace/theme"),
         extensions: jsFileList("lib/ace/ext"),
+        // extensions: ['error_marker', 'keybinding_menu', 'language_tools'],
         // workers: workers("lib/ace/mode"),
         workers: [],
         keybindings: ["vim", "emacs"],
         readFilters: [copy.filter.moduleDefines]
     };
+    console.log(options)
 
     for(var key in defaults)
         if (!options.hasOwnProperty(key))
@@ -419,7 +421,7 @@ var buildAce = function(options) {
     project.assumeAllFilesLoaded();
     delete project.ignoredModules["ace/theme/textmate"];
     delete project.ignoredModules["ace/requirejs/text!ace/theme/textmate.css"];
-    
+
     options.themes.forEach(function(theme) {
         console.log("theme " + theme);
         copy({
@@ -431,7 +433,7 @@ var buildAce = function(options) {
             dest:   targetDir + "/theme-" + theme.replace("_theme", "") + ".js"
         });
     });
-    
+
     // generateThemesModule(options.themes);
 
     console.log('# ace key bindings ---------');
@@ -679,7 +681,7 @@ function exportAce(ns, module, requireBase, extModule) {
                 });
             })();
         };
-        
+
         if (extModule) {
             module = extModule;
             template = function() {
@@ -688,9 +690,9 @@ function exportAce(ns, module, requireBase, extModule) {
                 })();
             };
         }
-        
+
         text = text.replace(/function init\(packaged\) {/, "init(true);$&\n");
-        
+
         return (text + ";" + template
             .toString()
             .replace(/MODULE/g, module)
@@ -707,7 +709,7 @@ function updateModes() {
         var source = fs.readFileSync(filepath, "utf8");
         if (!/this.\$id\s*=\s*"/.test(source))
             source = source.replace(/\n([ \t]*)(\}\).call\(\w*Mode.prototype\))/, '\n$1    this.$id = "";\n$1$2');
-        
+
         source = source.replace(/(this.\$id\s*=\s*)"[^"]*"/,  '$1"ace/mode/' + m + '"');
         fs.writeFileSync(filepath, source, "utf8")
     })

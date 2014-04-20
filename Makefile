@@ -5,7 +5,7 @@ pre_build:
 	mkdir -p build/src
 	mkdir -p build/demo/kitchen-sink
 	mkdir -p build/textarea/src
-	
+
 	cp -r demo/kitchen-sink/styles.css build/demo/kitchen-sink/styles.css
 	cp demo/kitchen-sink/logo.png build/demo/kitchen-sink/logo.png
 	cp -r doc/site/images build/textarea
@@ -18,42 +18,26 @@ build: pre_build
 # Minimal build: call Makefile.dryice.js only if our sources changed
 basic: build/src/ace.js
 
-build/src/ace.js : ${wildcard lib/*} \
-                   ${wildcard lib/*/*} \
-                   ${wildcard lib/*/*/*} \
-                   ${wildcard lib/*/*/*/*} \
-                   ${wildcard lib/*/*/*/*/*} \
-                   ${wildcard lib/*/*/*/*/*/*}
+build/src/ace.js: ${wildcard lib/*} \
+                  ${wildcard lib/*/*} \
+                  ${wildcard lib/*/*/*} \
+                  ${wildcard lib/*/*/*/*} \
+                  ${wildcard lib/*/*/*/*/*} \
+                  ${wildcard lib/*/*/*/*/*/*}
 	./Makefile.dryice.js
 
-build/src-min/ace.js : ${wildcard lib/*} \
-                   ${wildcard lib/*/*} \
-                   ${wildcard lib/*/*/*} \
-                   ${wildcard lib/*/*/*/*} \
-                   ${wildcard lib/*/*/*/*/*} \
-                   ${wildcard lib/*/*/*/*/*/*}
-	/usr/local/bin/node ./Makefile-plod.dryice.js minimal --m
+build/ace-min.js: ${wildcard lib/*} \
+                  ${wildcard lib/*/*} \
+                  ${wildcard lib/*/*/*} \
+                  ${wildcard lib/*/*/*/*} \
+                  ${wildcard lib/*/*/*/*/*} \
+                  ${wildcard lib/*/*/*/*/*/*}
+	/usr/local/bin/node ./Makefile-plod.dryice.js minimal --s
 
-embed: build/src-min/ace.js
-	@mkdir -p build/editor
-	@echo "// ACE Editor" > build/ace.js
-	@for f in ${wildcard build/src-min/[a-s]*.js} ${wildcard build/src-min/snippets/*.js} ; \
-    do cat $$f >> build/ace.js; \
-    echo >> build/ace.js; \
-  done
-
-	@echo >> build/ace.js
-	@echo "// Color Themes" >> build/ace.js
-	@for f in ${wildcard build/src-min/theme*.js} ; \
-    do cat $$f >> build/ace.js; \
-    echo >> build/ace.js; \
-  done
-
-install: embed
-	@./env/bin/python themedump.py > /dev/null
-	@cp build/ace.js ../../Resources/ui/js/ace.js
-	@cp build/themes.json ../../Resources/ui/themes.json
-	@cp build/autocomplete.css ../../Resources/ui/autocomplete.css
+install: build/ace-min.js
+	@cp build/ace-min.js ../plotdevice/Resources/ui/js/ace.js
+	@cp plotdevice/themes.json ../plotdevice/Resources/ui/themes.json
+	@cp plotdevice/autocomplete.css ../plotdevice/Resources/ui/autocomplete.css
 
 doc:
 	cd doc;\
