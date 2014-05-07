@@ -35,7 +35,7 @@ plotdevice/editor/ace-min.js: ${wildcard lib/*} \
 	/usr/local/bin/node ./Makefile-plod.dryice.js minimal --s --target plotdevice/editor
 
 install: plotdevice/editor/ace-min.js
-	@cp plotdevice/editor/ace-min.js ../plotdevice/Resources/ui/js/ace.js
+	@yui plotdevice/editor/ace-min.js > ../plotdevice/Resources/ui/js/ace.js
 	@cp plotdevice/themes.json ../plotdevice/Resources/ui/themes.json
 	@cp plotdevice/autocomplete.css ../plotdevice/Resources/ui/autocomplete.css
 
