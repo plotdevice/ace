@@ -53,10 +53,11 @@ var PlotDeviceHighlightRules = function() {
     ]
 
     var builtinConstants = ["True", "False", "None", "NotImplemented", "Ellipsis", "__debug__"]
+    var plodInteractive = ["MOUSEX", "MOUSEY", "KEY_UP", "KEY_DOWN", "KEY_LEFT", "KEY_RIGHT", "keydown", "mousedown", "keycode", "key"]
 
     var plodNumeric = [
         'BEVEL', 'BOOLEAN', 'BUTT', 'BUTTON', 'CENTER', 'CLOSE', 'CMYK', 'CORNER',
-        'CURVETO', 'DEFAULT', 'DEGREES', 'FORTYFIVE', 'FRAME', 'GREY', 'HEIGHT', 'HSB',
+        'CURVETO', 'DEFAULT', 'DEGREES', 'FORTYFIVE', 'FRAME', 'GREY', 'HEIGHT', 'HSV',
         'JUSTIFY', 'KEY_BACKSPACE', 'KEY_DOWN', 'KEY_ESC', 'KEY_LEFT', 'KEY_RIGHT',
         'KEY_TAB', 'KEY_UP', 'LEFT', 'LINETO', 'MITER', 'MOVETO', 'NORMAL', 'NUMBER',
         'PAGE', 'PERCENT', 'RADIANS', 'RGB', 'RIGHT', 'ROUND', 'SQUARE', 'TEXT', 'WIDTH',
@@ -89,13 +90,13 @@ var PlotDeviceHighlightRules = function() {
         'transform', 'translate', "var", 'ximport'
     ]
 
-    var colorEntities = ('aliceblue|antiquewhite|aqua|aquamarine|azure|bark|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightsteelblue|lightyellow|lime|limegreen|linen|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen');
+    var colorEntities = ('aliceblue|antiquewhite|aqua|aquamarine|azure|bark|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen');
     var colorCodes = '(#?[a-f0-9]{3}([a-f0-9]{3}([a-f0-9]{2})?)?\\b)'
 
     var keywordMapper = this.createKeywordMapper({
         "invalid.deprecated": "debugger",
         "support.function": builtinFunctions.concat(plodFunctions).join("|"),
-        "constant.language": builtinConstants.join("|"),
+        "constant.language": builtinConstants.concat(plodInteractive).join("|"),
         "constant.numeric": plodNumeric.join("|"),
         "keyword": builtinKeywords.concat(plodClasses).join("|")
     }, "identifier");
